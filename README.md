@@ -9,8 +9,8 @@ Fortunately, the Data Science team at Facebook recently published a new method c
 
 ## Objectives
 
-* Understand the difference between ARIMA and Additive Synthesis for time-series forecasting
-* Model a timeseries object using prophet library 
+* Understand the difference between ARIMA and Additive Synthesis for time series forecasting
+* Model a time series object using prophet library 
 * Make predictions for future and compare the approach with previously seen techniques
 
 ## Facebook Prophet
