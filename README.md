@@ -1,19 +1,27 @@
 
+# Facebook Prophet - Lab
+
 ## Introduction
 
 In the last lab, we learnt how to visualize and manipulate time series data, and how to use the ARIMA modelling to produce forecasts from time-series data. We also learnt how the conclude a correct parametrization of ARIMA models. This can be a complicated process, and while statistical programming languages such a R provide automated ways to solve this issue, but those have yet to be officially ported over to Python. 
 
 Fortunately, the Data Science team at Facebook recently published a new method called prophet, which enables data analysts and developers alike to perform forecasting at scale in Python. We would encourage you to read [this article](https://research.fb.com/prophet-forecasting-at-scale/) by Facebook explaining how prophet simplifies the forecasting process and provides an improved predictive ability. 
 
-FB prophet uses an elegant yet simple method for analyzing and predicting periodic data known as the **additive modelling**. The idea is straightforward: represent a time-series as a combination of patterns at different scales such as daily, weekly, seasonally, and yearly, along with an overall trend. Your energy use might rise in the summer and decrease in the winter, but have an overall decreasing trend as you increase the energy efficiency of your home. An additive model can show us both patterns/trends and make predictions based on these observations.
+## Objectives
+
+* Understand the difference between ARIMA and Additive Synthesis for time-series forecasting
+* Model a timeseries object using prophet library 
+* Make predictions for future and compare the approach with previously seen techniques
+
+## Facebook Prophet
+
+Facebook prophet uses an elegant yet simple method for analyzing and predicting periodic data known as the **additive modelling**. The idea is straightforward: represent a time-series as a combination of patterns at different scales such as daily, weekly, seasonally, and yearly, along with an overall trend. Your energy use might rise in the summer and decrease in the winter, but have an overall decreasing trend as you increase the energy efficiency of your home. An additive model can show us both patterns/trends and make predictions based on these observations.
 
 The following image shows an additive model decomposition of a time-series into an overall trend, yearly trend, and weekly trend.
-
 
 ![](https://research.fb.com/wp-content/uploads/2017/02/prophet_example_for_post2.png?w=648)
 
 *“Prophet has been a key piece to improving Facebook’s ability to create a large number of trustworthy forecasts used for decision-making and even in product features.”*
-
 
 In order to compute its forecasts, the fbprophet library relies on the STAN programming language. Before installing fbprophet, we need to make sure that the pystan Python wrapper to STAN is installed. We shall first install `pystan` and `fbprophet` using `!pip install`.
 
