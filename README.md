@@ -1,5 +1,5 @@
 
-# Time-series Forecasting with Facebook Prophet
+# Facebook Prophet - Lab
 
 ## Introduction
 
