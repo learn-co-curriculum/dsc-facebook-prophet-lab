@@ -1,17 +1,16 @@
-
 # Facebook Prophet - Lab
 
 ## Introduction
 
 In the last lab, you learned how to visualize and manipulate time series data, and how to use ARIMA modeling to produce forecasts for time series data. You also learned how to conclude a correct parametrization of ARIMA models. This can be a complicated process, and while statistical programming languages such as R provide automated ways to solve this issue, those have yet to be officially ported over to Python. 
 
-Fortunately, the Data Science team at Facebook recently published a new library called `fbprophet`, which enables data analysts and developers alike to perform forecasting at scale in Python. We encourage you to read [this article](https://research.fb.com/prophet-forecasting-at-scale/) by Facebook explaining how `fbprophet` simplifies the forecasting process and provides an improved predictive ability. 
+Fortunately, the Data Science team at Facebook recently published a new library called `prophet`, which enables data analysts and developers alike to perform forecasting at scale in Python. We encourage you to read [this article](https://research.facebook.com/blog/2017/2/prophet-forecasting-at-scale/) by Facebook explaining how `prophet` simplifies the forecasting process and provides an improved predictive ability. 
 
 ## Objectives
 
 - Model a time series using the Facebook's Prophet 
 - Describe the difference between ARIMA and Additive Synthesis for time series forecasting 
-- Use the methods in the `fbprophet` library to plot predicted values 
+- Use the methods in the `prophet` library to plot predicted values 
 
 ## Facebook's Prophet
 
@@ -19,34 +18,9 @@ Facebook's `prophet` uses an elegant yet simple method for analyzing and predict
 
 The following image shows an additive model decomposition of a time series into an overall trend, yearly trend, and weekly trend.
 
-![](https://research.fb.com/wp-content/uploads/2017/02/prophet_example_for_post2.png?w=648)
+![additive model image from Facebook blog post](https://scontent-lga3-1.xx.fbcdn.net/v/t39.8562-6/240830073_526712221759967_1137977873639917627_n.png?_nc_cat=103&ccb=1-7&_nc_sid=6825c5&_nc_ohc=G52vWPIYHVYAX_JbvbH&_nc_ht=scontent-lga3-1.xx&oh=00_AT-RbQfa68-tBqQhZdpVSUbOiv-t1N6xq9jfqhSGzlRmmQ&oe=630A5A8B)
 
 *“Prophet has been a key piece to improving Facebook’s ability to create a large number of trustworthy forecasts used for decision-making and even in product features.”*
-
-In order to compute its forecasts, the `fbprophet` library relies on the STAN programming language. Before installing `fbprophet`, you need to make sure that the `pystan` Python wrapper to STAN is installed. We shall first install `pystan` and `fbprophet` using `pip install`.
-
-
-```python
-# If installing from terminal
-# pip install pystan
-# pip install fbprophet
-
-# If installing from a jupyter notebook
-# !pip install pystan
-# !pip install fbprophet
-```
-
-
-```python
-# __SOLUTION__ 
-# If installing from terminal
-# pip install pystan
-# pip install fbprophet
-
-# If installing from a jupyter notebook
-# !pip install pystan
-# !pip install fbprophet
-```
 
 Let's start by reading in our time series data. We will cover some data manipulation using `pandas`, accessing financial data using the `Quandl` library, and plotting with `matplotlib`. 
 
@@ -64,7 +38,7 @@ import seaborn as sns
 from matplotlib.pylab import rcParams
 plt.style.use('fivethirtyeight')
 
-from fbprophet import Prophet as proph
+from prophet import Prophet
 ```
 
 
@@ -82,8 +56,11 @@ import seaborn as sns
 from matplotlib.pylab import rcParams
 plt.style.use('fivethirtyeight')
 
-from fbprophet import Prophet
+from prophet import Prophet
 ```
+
+    Importing plotly failed. Interactive plots will not work.
+
 
 
 ```python
@@ -99,7 +76,7 @@ ts = pd.read_csv('passengers.csv')
 ts['Month'] = pd.DatetimeIndex(ts['Month'])
 ```
 
-The `fbprophet` library also imposes the strict condition that the input columns be named `ds` (the time column) and `y` (the metric column), so let's rename the columns in our `ts` DataFrame. 
+The `prophet` library also imposes the strict condition that the input columns be named `ds` (the time column) and `y` (the metric column), so let's rename the columns in our `ts` DataFrame. 
 
 
 ```python
@@ -193,12 +170,14 @@ plt.show()
 ```
 
 
-![png](index_files/index_12_0.png)
+    
+![png](index_files/index_10_0.png)
+    
 
 
 ## Time Series Forecasting with Prophet
 
-We will now learn how to use the `fbrophet` library to predict future values of our time series. The Facebook team has abstracted away many of the inherent complexities of time series forecasting and made it more intuitive for analysts and developers alike to work with time series data.
+We will now learn how to use the `prophet` library to predict future values of our time series. The Facebook team has abstracted away many of the inherent complexities of time series forecasting and made it more intuitive for analysts and developers alike to work with time series data.
 
 To begin, we will create a new prophet object with `Prophet()` and provide a number of arguments. For example, we can specify the desired range of our uncertainty interval by setting the `interval_width` parameter.
 
@@ -230,14 +209,14 @@ Now that our model has been initialized, we can call its `.fit()` method with ou
 Model.fit(ts)
 ```
 
-    INFO:fbprophet:Disabling weekly seasonality. Run prophet with weekly_seasonality=True to override this.
-    INFO:fbprophet:Disabling daily seasonality. Run prophet with daily_seasonality=True to override this.
+    13:22:13 - cmdstanpy - INFO - Chain [1] start processing
+    13:22:13 - cmdstanpy - INFO - Chain [1] done processing
 
 
 
 
 
-    <fbprophet.forecaster.Prophet at 0x1a262637b8>
+    <prophet.forecaster.Prophet at 0x40749ca080>
 
 
 
@@ -369,97 +348,97 @@ forecast.head()
     <tr>
       <th>0</th>
       <td>1949-01-01</td>
-      <td>106.390966</td>
-      <td>37.442737</td>
-      <td>125.712627</td>
-      <td>106.390966</td>
-      <td>106.390966</td>
-      <td>-21.935305</td>
-      <td>-21.935305</td>
-      <td>-21.935305</td>
-      <td>-21.935305</td>
-      <td>-21.935305</td>
-      <td>-21.935305</td>
+      <td>106.199036</td>
+      <td>41.687583</td>
+      <td>130.259295</td>
+      <td>106.199036</td>
+      <td>106.199036</td>
+      <td>-21.964653</td>
+      <td>-21.964653</td>
+      <td>-21.964653</td>
+      <td>-21.964653</td>
+      <td>-21.964653</td>
+      <td>-21.964653</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>84.455661</td>
+      <td>84.234383</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1949-02-01</td>
-      <td>108.569855</td>
-      <td>36.036125</td>
-      <td>123.675224</td>
-      <td>108.569855</td>
-      <td>108.569855</td>
-      <td>-30.703975</td>
-      <td>-30.703975</td>
-      <td>-30.703975</td>
-      <td>-30.703975</td>
-      <td>-30.703975</td>
-      <td>-30.703975</td>
+      <td>108.385288</td>
+      <td>32.799167</td>
+      <td>121.682585</td>
+      <td>108.385288</td>
+      <td>108.385288</td>
+      <td>-30.742163</td>
+      <td>-30.742163</td>
+      <td>-30.742163</td>
+      <td>-30.742163</td>
+      <td>-30.742163</td>
+      <td>-30.742163</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>77.865881</td>
+      <td>77.643125</td>
     </tr>
     <tr>
       <th>2</th>
       <td>1949-03-01</td>
-      <td>110.537884</td>
-      <td>69.042050</td>
-      <td>153.715488</td>
-      <td>110.537884</td>
-      <td>110.537884</td>
-      <td>-0.486998</td>
-      <td>-0.486998</td>
-      <td>-0.486998</td>
-      <td>-0.486998</td>
-      <td>-0.486998</td>
-      <td>-0.486998</td>
+      <td>110.359967</td>
+      <td>68.431103</td>
+      <td>154.167749</td>
+      <td>110.359967</td>
+      <td>110.359967</td>
+      <td>-0.494234</td>
+      <td>-0.494234</td>
+      <td>-0.494234</td>
+      <td>-0.494234</td>
+      <td>-0.494234</td>
+      <td>-0.494234</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>110.050887</td>
+      <td>109.865733</td>
     </tr>
     <tr>
       <th>3</th>
       <td>1949-04-01</td>
-      <td>112.716774</td>
-      <td>63.634025</td>
-      <td>150.250322</td>
-      <td>112.716774</td>
-      <td>112.716774</td>
-      <td>-5.184948</td>
-      <td>-5.184948</td>
-      <td>-5.184948</td>
-      <td>-5.184948</td>
-      <td>-5.184948</td>
-      <td>-5.184948</td>
+      <td>112.546219</td>
+      <td>63.118888</td>
+      <td>154.836731</td>
+      <td>112.546219</td>
+      <td>112.546219</td>
+      <td>-5.201420</td>
+      <td>-5.201420</td>
+      <td>-5.201420</td>
+      <td>-5.201420</td>
+      <td>-5.201420</td>
+      <td>-5.201420</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>107.531826</td>
+      <td>107.344799</td>
     </tr>
     <tr>
       <th>4</th>
       <td>1949-05-01</td>
-      <td>114.825377</td>
-      <td>67.574954</td>
-      <td>153.370611</td>
-      <td>114.825377</td>
-      <td>114.825377</td>
-      <td>-3.782347</td>
-      <td>-3.782347</td>
-      <td>-3.782347</td>
-      <td>-3.782347</td>
-      <td>-3.782347</td>
-      <td>-3.782347</td>
+      <td>114.661946</td>
+      <td>67.628286</td>
+      <td>155.423695</td>
+      <td>114.661946</td>
+      <td>114.661946</td>
+      <td>-3.802447</td>
+      <td>-3.802447</td>
+      <td>-3.802447</td>
+      <td>-3.802447</td>
+      <td>-3.802447</td>
+      <td>-3.802447</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>111.043030</td>
+      <td>110.859499</td>
     </tr>
   </tbody>
 </table>
@@ -518,37 +497,37 @@ forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
     <tr>
       <th>175</th>
       <td>1963-08-01</td>
-      <td>649.787427</td>
-      <td>608.177165</td>
-      <td>693.599944</td>
+      <td>649.244391</td>
+      <td>605.894058</td>
+      <td>696.349120</td>
     </tr>
     <tr>
       <th>176</th>
       <td>1963-09-01</td>
-      <td>602.260711</td>
-      <td>560.411796</td>
-      <td>644.784999</td>
+      <td>601.696467</td>
+      <td>557.427798</td>
+      <td>647.235297</td>
     </tr>
     <tr>
       <th>177</th>
       <td>1963-10-01</td>
-      <td>566.233600</td>
-      <td>519.892990</td>
-      <td>613.834845</td>
+      <td>565.653369</td>
+      <td>518.798873</td>
+      <td>611.856044</td>
     </tr>
     <tr>
       <th>178</th>
       <td>1963-11-01</td>
-      <td>534.258296</td>
-      <td>493.327328</td>
-      <td>577.155845</td>
+      <td>533.659919</td>
+      <td>490.974144</td>
+      <td>582.956115</td>
     </tr>
     <tr>
       <th>179</th>
       <td>1963-12-01</td>
-      <td>563.846779</td>
-      <td>521.459812</td>
-      <td>603.940503</td>
+      <td>563.257635</td>
+      <td>520.245793</td>
+      <td>607.852477</td>
     </tr>
   </tbody>
 </table>
@@ -575,7 +554,9 @@ plt.show()
 ```
 
 
-![png](index_files/index_30_0.png)
+    
+![png](index_files/index_28_0.png)
+    
 
 
 Prophet plots the observed values of the time series (the black dots), the forecasted values (blue line) and the uncertainty intervals of our forecasts (the blue shaded regions).
@@ -597,7 +578,9 @@ plt.show()
 ```
 
 
-![png](index_files/index_33_0.png)
+    
+![png](index_files/index_31_0.png)
+    
 
 
 Since we are working with monthly data, Prophet will plot the trend and the yearly seasonality but if you were working with daily data, you would also see a weekly seasonality plot included. 
@@ -605,4 +588,4 @@ Since we are working with monthly data, Prophet will plot the trend and the year
 From the trend and seasonality, we can see that the trend is playing a large part in the underlying time series and seasonality comes into play mostly toward the beginning and the end of the year. With this information, we've been able to quickly model and forecast some data to get a feel for what might be coming our way in the future from this particular dataset. 
 
 ## Summary 
-In this lab, you learned how to use the `fbprophet` library to perform time series forecasting in Python. We have been using out-of-the box parameters, but Prophet enables us to specify many more arguments. In particular, Prophet provides the functionality to bring your own knowledge about time series to the table.
+In this lab, you learned how to use the `prophet` library to perform time series forecasting in Python. We have been using out-of-the box parameters, but Prophet enables us to specify many more arguments. In particular, Prophet provides the functionality to bring your own knowledge about time series to the table.
